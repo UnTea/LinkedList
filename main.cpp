@@ -8,11 +8,6 @@ struct Node {
     Node(int data)
         : data{data}
         , next{nullptr} { }
-
-    // TODO delete this shit later
-    ~Node() {
-        std::cout << "Destroy Node with data: " << data << std::endl;
-    }
 };
 
 class LinkedList {
@@ -31,6 +26,16 @@ public:
         }
     }
 
+    void clean() {
+        while (head) {
+            head = std::move(head->next);
+        }
+    }
+
+    ~LinkedList() {
+        clean();
+    }
+
 private:
     std::unique_ptr<Node> head;
 };
@@ -38,9 +43,13 @@ private:
 int main() {
     LinkedList list;
 
-    list.push(0);
-    list.push(1);
-    list.push(2);
-    list.push(3);
-    list.push(4);
+    //    list.push(0);
+    //    list.push(1);
+    //    list.push(2);
+    //    list.push(3);
+    //    list.push(4);
+
+    for (size_t i = 0; i < 1'000'000; ++i) {
+        list.push(static_cast<int>(i));
+    }
 }
