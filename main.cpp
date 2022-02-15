@@ -1,6 +1,5 @@
-#include <memory>
 #include <iostream>
-
+#include <memory>
 
 struct Node {
     int data;
@@ -8,10 +7,9 @@ struct Node {
 
     Node(int data)
         : data{data}
-        , next{nullptr}
-    { }
+        , next{nullptr} { }
 
-    //TODO delete this shit later
+    // TODO delete this shit later
     ~Node() {
         std::cout << "Destroy Node with data: " << data << std::endl;
     }
@@ -20,8 +18,7 @@ struct Node {
 class LinkedList {
 public:
     LinkedList()
-        : head{nullptr}
-    { }
+        : head{nullptr} { }
 
     void push(int data) {
         auto temp{std::make_unique<Node>(data)};
@@ -37,7 +34,6 @@ public:
 private:
     std::unique_ptr<Node> head;
 };
-
 
 int main() {
     LinkedList list;
