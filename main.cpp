@@ -1,4 +1,5 @@
 #include <memory>
+#include <iostream>
 
 
 struct Node {
@@ -9,14 +10,41 @@ struct Node {
         : data{data}
         , next{nullptr}
     { }
+
+    //TODO delete this shit later
+    ~Node() {
+        std::cout << "Destroy Node with data: " << data << std::endl;
+    }
 };
 
+class LinkedList {
+public:
+    LinkedList()
+        : head{nullptr}
+    { }
+
+    void push(int data) {
+        auto temp{std::make_unique<Node>(data)};
+
+        if (head) {
+            temp->next = std::move(head);
+            head = std::move(temp);
+        } else {
+            head = std::move(temp);
+        }
+    }
+
+private:
+    std::unique_ptr<Node> head;
+};
+
+
 int main() {
-    auto first_node{std::make_unique<Node>(1)};
+    LinkedList list;
 
-    auto second_node{std::make_unique<Node>(2)};
-    second_node->next = std::move(first_node);
-
-    auto third_node{std::make_unique<Node>(3)};
-    third_node->next = std::move(second_node);
+    list.push(0);
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.push(4);
 }
