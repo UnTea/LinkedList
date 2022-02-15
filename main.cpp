@@ -36,20 +36,41 @@ public:
         clean();
     }
 
+    friend std::ostream& operator<<(std::ostream& ostream, const LinkedList& list);
+
 private:
     std::unique_ptr<Node> head;
 };
 
+std::ostream& operator<<(std::ostream& ostream, const LinkedList& list) {
+    Node* head = list.head.get();
+
+    while (head) {
+        ostream << head->data << ' ';
+        head = head->next.get();
+    }
+
+    return ostream;
+}
+
 int main() {
     LinkedList list;
 
-    //    list.push(0);
-    //    list.push(1);
-    //    list.push(2);
-    //    list.push(3);
-    //    list.push(4);
+    std::cout << "empty list" << std::endl;
+    std::cout << list << std::endl;
+    std::cout << "==========" << std::endl;
 
-    for (size_t i = 0; i < 1'000'000; ++i) {
+    for (size_t i = 0; i < 10; ++i) {
         list.push(static_cast<int>(i));
     }
+
+    std::cout << "filled list" << std::endl;
+    std::cout << list << std::endl;
+    std::cout << "==========" << std::endl;
+
+    list.clean();
+
+    std::cout << "empty list" << std::endl;
+    std::cout << list << std::endl;
+    std::cout << "==========" << std::endl;
 }
