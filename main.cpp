@@ -19,6 +19,33 @@ public:
     void pop();
     void clean();
 
+    LinkedList(const LinkedList &list) {
+        Node *root = list.head.get();
+
+        std::unique_ptr<Node> new_head{nullptr};
+        Node *ptr_on_new_head{nullptr};
+
+        while (root) {
+            auto temp{std::make_unique<Node>(root->data)};
+
+            if (new_head == nullptr) {
+                new_head = std::move(temp);
+                ptr_on_new_head = new_head.get();
+            } else {
+                ptr_on_new_head->next = std::move(temp);
+                ptr_on_new_head = ptr_on_new_head->next.get();
+            }
+
+            root = root->next.get();
+        }
+
+        head = std::move(new_head);
+    }
+
+    LinkedList(LinkedList &&list) noexcept {
+        head = std::move(list.head);
+    }
+
     ~LinkedList() {
         clean();
     }
