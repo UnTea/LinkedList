@@ -18,12 +18,13 @@ public:
     void push(int data);
     void pop();
     void clean();
+    void reverse();
 
-    LinkedList(const LinkedList &list) {
-        Node *root = list.head.get();
+    LinkedList(const LinkedList& list) {
+        Node* root = list.head.get();
 
         std::unique_ptr<Node> new_head{nullptr};
-        Node *ptr_on_new_head{nullptr};
+        Node* ptr_on_new_head{nullptr};
 
         while (root) {
             auto temp{std::make_unique<Node>(root->data)};
@@ -42,7 +43,7 @@ public:
         head = std::move(new_head);
     }
 
-    LinkedList(LinkedList &&list) noexcept {
+    LinkedList(LinkedList&& list) noexcept {
         head = std::move(list.head);
     }
 
@@ -93,6 +94,19 @@ void LinkedList::clean() {
     }
 }
 
+void LinkedList::reverse() {
+    LinkedList temp;
+    Node* root = head.get();
+
+    while (root) {
+        temp.push(root->data);
+        root = root->next.get();
+    }
+
+    clean();
+    head = std::move(temp.head);
+}
+
 auto main() -> int {
     LinkedList list;
 
@@ -105,6 +119,14 @@ auto main() -> int {
     for (size_t i = 0; i < 10; ++i) {
         list.push(static_cast<int>(i));
     }
+
+    std::cout << list << std::endl;
+
+    list.reverse();
+
+    std::cout << list << std::endl;
+
+    list.reverse();
 
     std::cout << list << std::endl;
 
