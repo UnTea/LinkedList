@@ -5,7 +5,7 @@ struct Node {
     int data;
     std::unique_ptr<Node> next;
 
-    Node(int data)
+    explicit Node(int data)
         : data{data}
         , next{nullptr} { }
 };
@@ -15,31 +15,9 @@ public:
     LinkedList()
         : head{nullptr} { }
 
-    void push(int data) {
-        auto temp{std::make_unique<Node>(data)};
-
-        if (head) {
-            temp->next = std::move(head);
-            head = std::move(temp);
-        } else {
-            head = std::move(temp);
-        }
-    }
-
-    void pop() {
-        if (head == nullptr) {
-            return;
-        }
-
-        std::unique_ptr<Node> temp = std::move(head);
-        head = std::move(temp->next);
-    }
-
-    void clean() {
-        while (head) {
-            head = std::move(head->next);
-        }
-    }
+    void push(int data);
+    void pop();
+    void clean();
 
     ~LinkedList() {
         clean();
@@ -60,6 +38,32 @@ std::ostream& operator<<(std::ostream& ostream, const LinkedList& list) {
     }
 
     return ostream;
+}
+
+void LinkedList::push(int data) {
+    auto temp{std::make_unique<Node>(data)};
+
+    if (head) {
+        temp->next = std::move(head);
+        head = std::move(temp);
+    } else {
+        head = std::move(temp);
+    }
+}
+
+void LinkedList::pop() {
+    if (head == nullptr) {
+        return;
+    }
+
+    std::unique_ptr<Node> temp = std::move(head);
+    head = std::move(temp->next);
+}
+
+void LinkedList::clean() {
+    while (head) {
+        head = std::move(head->next);
+    }
 }
 
 auto main() -> int {
