@@ -110,29 +110,30 @@ void LinkedList::reverse() {
 auto main() -> int {
     LinkedList list;
 
-    list.push(-10);
-    std::cout << list << std::endl;
-
-    list.pop();
-    std::cout << list << std::endl;
-
-    for (size_t i = 0; i < 10; ++i) {
+    for (size_t i = 0; i < 15; ++i) {
         list.push(static_cast<int>(i));
     }
 
-    std::cout << list << std::endl;
+    std::cout << "list with pushed data: " << list << std::endl;
 
-    list.reverse();
+    list.clean();
+    std::cout << "cleaned list data: " << list << std::endl;
 
-    std::cout << list << std::endl;
+    list.push(-1);
+    list.push(-2);
+    list.push(-3);
+    list.push(-4);
+    list.push(-5);
+    list.push(-6);
+    std::cout << "list with pushed data: " << list << std::endl;
 
-    list.reverse();
+    LinkedList list1 = list;
+    std::cout << "list1 (copy semantic): " << list1 << std::endl;
 
-    std::cout << list << std::endl;
+    LinkedList list2 = std::move(list1);
+    std::cout << "list: " << list << std::endl;
+    std::cout << "list2 (move semantic): " << list2 << std::endl;
 
-    list.pop();
-    list.pop();
-    list.pop();
-
-    std::cout << list << std::endl;
+    list2.reverse();
+    std::cout << "reserved list2: " << list2 << std::endl;
 }
