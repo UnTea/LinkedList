@@ -26,6 +26,15 @@ public:
         }
     }
 
+    void pop() {
+        if (head == nullptr) {
+            return;
+        }
+
+        std::unique_ptr<Node> temp = std::move(head);
+        head = std::move(temp->next);
+    }
+
     void clean() {
         while (head) {
             head = std::move(head->next);
@@ -53,24 +62,24 @@ std::ostream& operator<<(std::ostream& ostream, const LinkedList& list) {
     return ostream;
 }
 
-int main() {
+auto main() -> int {
     LinkedList list;
 
-    std::cout << "empty list" << std::endl;
+    list.push(-10);
     std::cout << list << std::endl;
-    std::cout << "==========" << std::endl;
+
+    list.pop();
+    std::cout << list << std::endl;
 
     for (size_t i = 0; i < 10; ++i) {
         list.push(static_cast<int>(i));
     }
 
-    std::cout << "filled list" << std::endl;
     std::cout << list << std::endl;
-    std::cout << "==========" << std::endl;
 
-    list.clean();
+    list.pop();
+    list.pop();
+    list.pop();
 
-    std::cout << "empty list" << std::endl;
     std::cout << list << std::endl;
-    std::cout << "==========" << std::endl;
 }
